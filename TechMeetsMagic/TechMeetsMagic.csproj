@@ -16,4 +16,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TechMeetsMagic.Data\TechMeetsMagic.Data.csproj" />
+  </ItemGroup>
+
 </Project>
