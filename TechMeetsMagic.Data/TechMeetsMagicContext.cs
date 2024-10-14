@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TechMeetsMagic.Data
 {
-    internal class TechMeetsMagicContext : DbContext
+    public class TechMeetsMagicContext : DbContext
     {
         public DbSet<NPC> NPCs { get; set; }
     }

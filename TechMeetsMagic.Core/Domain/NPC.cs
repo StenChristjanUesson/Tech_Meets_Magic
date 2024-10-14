@@ -14,7 +14,7 @@ namespace TechMeetsMagic.Core.Domain
     {
         Dead, Paralized, InFear, KnockedOut, Sleeping
     }
-    internal class NPC
+    public class NPC
     {
         public Guid ID { get; set; }
         public string NPCName { get; set; }
