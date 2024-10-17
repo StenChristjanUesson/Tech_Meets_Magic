@@ -1,8 +1,12 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace TechMeetsMagic.Models.NonPlayerCharacters
+namespace TechMeetsMagic.Core.Dto
 {
-    public enum NPCType
+    public enum NpcType
     {
         QuestGiver, Companion, Researcher, Hostile, Tutorial,
     }
@@ -10,7 +14,7 @@ namespace TechMeetsMagic.Models.NonPlayerCharacters
     {
         Dead, Paralized, InFear, KnockedOut, Sleeping
     }
-    public class NPCIndexViewModels
+    public class NPC
     {
         public Guid ID { get; set; }
         public string? NPCName { get; set; }
@@ -20,7 +24,11 @@ namespace TechMeetsMagic.Models.NonPlayerCharacters
         public int NPCMaxHP { get; set; }
         public int NPCCurrentHP { get; set; }
         public int NPCAttackDamage { get; set; }
-        public NPCType NpcType { get; set; }
+        public NpcType NpcType { get; set; }
+
+        //image
+        //public List<IFormFile> Files { get; set; }
+        //public IEnumerable<FileDatabaseDto> image { get; set; } = new List<FiltToDatabaseDto>();
 
         //db only
         public DateTime CreatedAt { get; set; }

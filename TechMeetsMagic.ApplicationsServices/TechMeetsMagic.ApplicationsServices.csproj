@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TechMeetsMagic.Data\TechMeetsMagic.Data.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -17,8 +17,9 @@ namespace TechMeetsMagic.Core.Domain
     public class NPC
     {
         public Guid ID { get; set; }
-        public string NPCName { get; set; }
-        public string NPCDescribtion { get; set; }
+        public string? NPCName { get; set; }
+        public string? NPCDescribtion { get; set; }
+        public int NPCLevel { get; set; }
         public NPCStatus NPCStatus { get; set; }
         public int NPCMaxHP { get; set; }
         public int NPCCurrentHP { get; set; }
