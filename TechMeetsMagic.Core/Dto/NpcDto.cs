@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace TechMeetsMagic.Core.Dto
     {
         Dead, Paralized, InFear, KnockedOut, Sleeping
     }
-    public class NPC
+    public class NpcDto
     {
         public Guid ID { get; set; }
         public string? NPCName { get; set; }
@@ -27,8 +28,8 @@ namespace TechMeetsMagic.Core.Dto
         public NpcType NpcType { get; set; }
 
         //image
-        //public List<IFormFile> Files { get; set; }
-        //public IEnumerable<FileDatabaseDto> image { get; set; } = new List<FiltToDatabaseDto>();
+        public List<IFormFile> Files { get; set; }
+        public IEnumerable<FileToDatabaseDto> image { get; set; } = new List<FileToDatabaseDto>();
 
         //db only
         public DateTime CreatedAt { get; set; }

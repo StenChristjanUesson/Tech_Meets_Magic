@@ -1,10 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using TechMeetsMagic.ApplicationsServices.Services;
+using TechMeetsMagic.Core.ServicesInterface;
 using TechMeetsMagic.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<INPCServices, NPCServices>();
+
 builder.Services.AddDbContext<TechMeetsMagicContext>(
     Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

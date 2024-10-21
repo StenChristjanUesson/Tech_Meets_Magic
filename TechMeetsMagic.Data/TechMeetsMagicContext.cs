@@ -11,6 +11,8 @@ namespace TechMeetsMagic.Data
 {
     public class TechMeetsMagicContext : DbContext
     {
+        public TechMeetsMagicContext(DbContextOptions<TechMeetsMagicContext> options) : base(options) { }
         public DbSet<NPC> NPCs { get; set; }
+        public DbSet<FileToDatabase> FilesToDatabase { get; set; }
     }
 }
