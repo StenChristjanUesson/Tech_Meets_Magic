@@ -6,14 +6,14 @@ using TechMeetsMagic.Models.NonPlayerCharacters;
 
 namespace TechMeetsMagic.Controllers
 {
-    public class NPCController : Controller
+    public class NPCsController : Controller
     {
         /*
          * NPCController controlls all functions of the NPC's: Speaking, giving quests, shop, being a fucking companion jne.
          */
         private readonly TechMeetsMagicContext _context;
         private readonly INPCServices _npcServices;
-        public NPCController(TechMeetsMagicContext context, INPCServices npcServices)
+        public NPCsController(TechMeetsMagicContext context, INPCServices npcServices)
         {
             _context = context;
             _npcServices = npcServices;
