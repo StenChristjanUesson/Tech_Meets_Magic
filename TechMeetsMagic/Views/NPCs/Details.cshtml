@@ -1,0 +1,54 @@
+﻿@model TechMeetsMagic.Models.NonPlayerCharacters.NpcDetailsViewModel
+
+<h1> @Html.DisplayFor(model => model.NPCName) </h1>
+
+<div>
+    <h4>Hello there, come and meet my frind: </h4>
+    <hr />
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="ID" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.ID)
+        </div>
+        <div id="imagediv">
+            @foreach (var image in Model.Images)
+            {
+                <partial name="_Images" model="image"></partial>
+            }
+        </div>
+        <div class="form-group row">
+            <label asp-for="NPCName" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NPCName)
+        </div>
+        <div class="form-group row">
+            <label asp-for="NPCDescribtion" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NPCDescribtion)
+        </div>
+        <div class="form-group row">
+            <label asp-for="NPCLevel" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NPCLevel)
+        </div>
+        <div class="form-group row">
+            <label asp-for="NPCMaxHP" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NPCMaxHP)
+        </div>
+        <div class="form-group row">
+            <label asp-for="NPCCurrentHP" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NPCCurrentHP)
+        </div>
+        <div class="form-group row">
+            <label asp-for="NPCAttackDamage" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NPCAttackDamage)
+        </div>
+        <div class="form-group row">
+            <label asp-for="NPCStatus" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NPCStatus)
+        </div>
+        <div class="form-group row">
+            <label asp-for="NpcType" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.NpcType)
+        </div>
+    </dl>
+
+    <a asp-action="Index" asp-controller="NPCs" class="btn btn-secondary">Index</a>
+</div>

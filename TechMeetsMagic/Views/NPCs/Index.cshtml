@@ -17,7 +17,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Type</th>
                     <th scope="col">Level</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Admin Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,8 +30,9 @@
                     <td>@Npc.NPCDescribtion</td>
                     <td>@Npc.NpcType</td>
                     <td>@Npc.NPCLevel</td>
-                    <td>@Npc.NPCCurrentHP</td>
-                    <td>@Npc.NPCMaxHP</td>
+                    <td>
+                        <a asp-action="details" asp-controller="NPCs" asp-route-id="@Npc.ID" class="btn btn-info">NpcDetails</a>
+                    </td>
                 </tr>
                 rowNumber++;
             }

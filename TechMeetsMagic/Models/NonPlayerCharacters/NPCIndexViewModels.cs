@@ -10,7 +10,7 @@ namespace TechMeetsMagic.Models.NonPlayerCharacters
     {
         Dead, Paralized, InFear, KnockedOut, Sleeping
     }
-    public class NPCIndexViewModels
+    public class NpcIndexViewModels
     {
         public Guid ID { get; set; }
         public string? NPCName { get; set; }

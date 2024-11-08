@@ -1,6 +1,12 @@
 ﻿@Model TechMeetsMagic.Models.NPCs.NPCImageViewModel
 
 <div class="form-group row cols-sm-4 offset-2">
-    <div>Model.ImageTitle</div>
+    <div>
+        @Model.ImageTitle
+        @if (!Model.Image.Any())
+        {
+            <p>"No images are found"</p>
+        }
+    </div>
     <img class="card-img-top" src="@Model.Image" asp-append-version="true"/>
 </div>

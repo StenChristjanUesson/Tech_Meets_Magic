@@ -48,6 +48,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             npc.NPCStatus = (NPCStatus)dto.NPCStatus;
             
             // set by user
+            npc.NPCName = dto.NPCName;
             npc.NpcType = (NpcType)dto.NpcType;
 
             // set for db

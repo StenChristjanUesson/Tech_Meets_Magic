@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.ServicesInterface;
 using TechMeetsMagic.Data;
@@ -24,7 +26,7 @@ namespace TechMeetsMagic.Controllers
         {
             var ResultingInvetory = _context.NPCs
                 .OrderByDescending(y => y.NpcType)
-                .Select(x => new NPCIndexViewModels
+                .Select(x => new NpcIndexViewModels
                 {
                     ID = x.ID,
                     NPCName = x.NPCName,
@@ -42,7 +44,8 @@ namespace TechMeetsMagic.Controllers
             return View("Create", vm);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(NpcCreateViewModels vm) 
         {
             var dto = new NpcDto()
@@ -60,11 +63,45 @@ namespace TechMeetsMagic.Controllers
             };
             var resutl = await _npcServices.Create(dto);
 
-            if (resutl != null) 
+            if (resutl == null) 
             { 
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index", vm);
+        }
+        public async Task<IActionResult> Details(Guid id /*, Guid ref*/)
+        {
+            var npc = await _npcServices.DetailsAsync(id);
+
+            if (npc == null)
+            {
+                return NotFound();
+            }
+
+            var images = await _context.FilesToDatabase
+                .Where(T => T.NpcId == id)
+                .Select(y => new NpcImageViewModel
+                {
+                    NpcID = y.ID,
+                    ImageID = y.ID,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            var vm = new NpcDetailsViewModel();
+            vm.ID = npc.ID;
+            vm.NPCName = npc.NPCName;
+            vm.NPCDescribtion = npc.NPCDescribtion;
+            vm.NPCLevel = npc.NPCLevel;
+            vm.NPCMaxHP = npc.NPCMaxHP;
+            vm.NPCCurrentHP = npc.NPCCurrentHP;
+            vm.NPCAttackDamage = npc.NPCAttackDamage;
+            vm.NPCStatus = (Models.NonPlayerCharacters.NPCStatus) npc.NPCStatus;
+            vm.NpcType = (NPCType) npc.NpcType;
+            vm.Images.AddRange(images);
+
+            return View(vm);
         }
     }
 }

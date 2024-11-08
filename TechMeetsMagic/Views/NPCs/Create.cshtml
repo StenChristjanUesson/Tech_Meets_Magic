@@ -1,7 +1,7 @@
 ﻿@model TechMeetsMagic.Models.NonPlayerCharacters.NpcCreateViewModels
 
 <div>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" asp-action="Create" enctype="multipart/form-data">
         <input asp-for="CreatedAt" type="hidden"/>
         <input asp-for="UpdatedAt" type="hidden"/>
         <input asp-for="NPCLevel" value="1" type="hidden"/>
@@ -62,7 +62,7 @@
             </div>
         </div>
         
-        <a asp-action="create" asp-controller="NPCs" type="submit" class="btn btn-primary" value="Make NPC"></a>
+        <input asp-action="Create" asp-controller="NPCs" type="submit" class="btn btn-primary" value="Make NPC"></input>
         <a asp-action="index" class="btn btn-primary">Cancel</a>
 
     </form>
