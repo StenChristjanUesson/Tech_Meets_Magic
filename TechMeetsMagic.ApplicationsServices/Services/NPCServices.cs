@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using TechMeetsMagic.Core.Domain;
 using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.ServicesInterface;
@@ -42,6 +43,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             // set by service
             NPC npc = new();
             npc.ID = Guid.NewGuid();
+            npc.NPCLevel = 0;
             npc.NPCCurrentHP = 100;
             npc.NPCAttackDamage = 100;
             npc.NPCMaxHP = 100;
@@ -49,6 +51,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             
             // set by user
             npc.NPCName = dto.NPCName;
+            npc.NPCDescribtion = dto.NPCDescribtion;
             npc.NpcType = (NpcType)dto.NpcType;
 
             // set for db
@@ -62,6 +65,39 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             }
 
             await _context.NPCs.AddAsync(npc);
+            await _context.SaveChangesAsync();
+
+            return npc;
+        }
+
+        public async Task<NPC> Update(NpcDto dto)
+        {
+            NPC npc = new NPC();
+            // set by service
+
+            npc.ID = dto.ID;
+            npc.NPCLevel = dto.NPCLevel;
+            npc.NPCMaxHP = dto.NPCMaxHP;
+            npc.NPCCurrentHP = dto.NPCCurrentHP;
+            npc.NPCAttackDamage = dto.NPCAttackDamage;
+            npc.NPCStatus = (NPCStatus)dto.NPCStatus;
+
+            // set by user
+            npc.NPCName = dto.NPCName;
+            npc.NPCDescribtion = dto.NPCDescribtion;
+            npc.NpcType = (NpcType)dto.NpcType;
+
+            // set for db
+            npc.CreatedAt = DateTime.Now;
+            npc.UpdatedAt = DateTime.Now;
+
+            //files
+            if (dto.Files != null)
+            {
+                _fileservices.UploadFilesToDatabase(dto, npc);
+            }
+
+            _context.NPCs.Update(npc);
             await _context.SaveChangesAsync();
 
             return npc;

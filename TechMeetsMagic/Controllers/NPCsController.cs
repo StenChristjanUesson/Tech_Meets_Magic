@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using TechMeetsMagic.Core.Domain;
 using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.ServicesInterface;
 using TechMeetsMagic.Data;
@@ -52,6 +53,12 @@ namespace TechMeetsMagic.Controllers
             {
                 NPCName = vm.NPCName,
                 NPCDescribtion = vm.NPCDescribtion,
+                NPCLevel = 0,
+                NPCMaxHP = 100,
+                NPCCurrentHP = 100,
+                NPCAttackDamage = vm.NPCAttackDamage,
+                NPCStatus = (Core.Dto.NPCStatus)vm.NPCStatus,
+                NpcType = (Core.Dto.NpcType)vm.NpcType,
                 image = vm.Images
                 .Select(x => new FileToDatabaseDto
                 {
@@ -101,7 +108,64 @@ namespace TechMeetsMagic.Controllers
             vm.NpcType = (NPCType) npc.NpcType;
             vm.Images.AddRange(images);
 
-            return View(vm);
+            return View(vm);            
+        }
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            if (id == null) { return NotFound(); }
+            var Npc = await _npcServices.DetailsAsync(id);
+            if (Npc == null) { return NotFound(); }
+            var images = await _context.FilesToDatabase
+                .Where(x => x.NpcId == id)
+                .Select(y => new NpcImageViewModel
+                {
+                    NpcID = y.ID,
+                    ImageID = y.ID,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+            var vm = new NpcCreateViewModels();
+            vm.ID = Npc.ID;
+            vm.NPCName = Npc.NPCName;
+            vm.NPCDescribtion = Npc.NPCDescribtion;
+            vm.NPCLevel = Npc.NPCLevel;
+            vm.NPCMaxHP = Npc.NPCMaxHP;
+            vm.NPCCurrentHP = Npc.NPCCurrentHP;
+            vm.NPCAttackDamage = Npc.NPCAttackDamage;
+            vm.NPCStatus = (Models.NonPlayerCharacters.NPCStatus)Npc.NPCStatus;
+            vm.NpcType = (NPCType)Npc.NpcType;
+            vm.CreatedAt = Npc.CreatedAt;
+            vm.UpdatedAt = DateTime.Now;
+            vm.Images.AddRange(images);
+            return View("Update", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(NpcCreateViewModels vm)
+        {
+            var dto = new NpcDto()
+            {
+                NPCName = vm.NPCName,
+                NPCDescribtion = vm.NPCDescribtion,
+                NPCLevel = 0,
+                NPCMaxHP = 100,
+                NPCCurrentHP = 100,
+                NPCAttackDamage = vm.NPCAttackDamage,
+                NPCStatus = (Core.Dto.NPCStatus)vm.NPCStatus,
+                NpcType = (Core.Dto.NpcType)vm.NpcType,
+                image = vm.Images
+                .Select(x => new FileToDatabaseDto
+                {
+                    ID = x.ImageID,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    NpcID = x.NpcID,
+                }).ToArray()
+            };
+            var result = await _npcServices.Update(dto);
+            if (result == null) { return RedirectToAction("Index"); }
+            return RedirectToAction("Index", vm);
         }
     }
 }
