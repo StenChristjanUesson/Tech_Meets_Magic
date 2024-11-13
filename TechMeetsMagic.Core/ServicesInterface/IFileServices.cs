@@ -11,5 +11,6 @@ namespace TechMeetsMagic.Core.ServicesInterface
     public interface IFileServices
     {
         void UploadFilesToDatabase(NpcDto dto, NPC domain);
+        Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto);
     }
 }

@@ -48,10 +48,10 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             npc.NPCAttackDamage = 100;
             npc.NPCMaxHP = 100;
             npc.NPCStatus = (NPCStatus)dto.NPCStatus;
-            
-            // set by user
             npc.NPCName = dto.NPCName;
             npc.NPCDescribtion = dto.NPCDescribtion;
+
+            // Chosen by user
             npc.NpcType = (NpcType)dto.NpcType;
 
             // set for db
@@ -81,14 +81,14 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             npc.NPCCurrentHP = dto.NPCCurrentHP;
             npc.NPCAttackDamage = dto.NPCAttackDamage;
             npc.NPCStatus = (NPCStatus)dto.NPCStatus;
-
-            // set by user
             npc.NPCName = dto.NPCName;
             npc.NPCDescribtion = dto.NPCDescribtion;
+
+            // Chosen by user
             npc.NpcType = (NpcType)dto.NpcType;
 
             // set for db
-            npc.CreatedAt = DateTime.Now;
+            npc.CreatedAt = dto.CreatedAt;
             npc.UpdatedAt = DateTime.Now;
 
             //files
@@ -101,6 +101,15 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             await _context.SaveChangesAsync();
 
             return npc;
+        }
+        public async Task<NPC> Delete(Guid id)
+        {
+            var result = await _context.NPCs
+                .FirstOrDefaultAsync(x => x.ID == id);
+            _context.NPCs.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return result;
         }
     }
 }

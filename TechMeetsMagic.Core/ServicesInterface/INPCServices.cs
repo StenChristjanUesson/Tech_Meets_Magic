@@ -13,5 +13,6 @@ namespace TechMeetsMagic.Core.ServicesInterface
         Task<NPC> DetailsAsync(Guid id);
         Task<NPC> Create(NpcDto dto);
         Task<NPC> Update(NpcDto dto);
+        Task<NPC> Delete(Guid id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using TechMeetsMagic.ApplicationsServices.Services;
 using TechMeetsMagic.Core.Domain;
 using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.ServicesInterface;
@@ -16,10 +17,12 @@ namespace TechMeetsMagic.Controllers
          */
         private readonly TechMeetsMagicContext _context;
         private readonly INPCServices _npcServices;
-        public NPCsController(TechMeetsMagicContext context, INPCServices npcServices)
+        private readonly IFileServices _fileServices;
+        public NPCsController(TechMeetsMagicContext context, INPCServices npcServices, IFileServices fileServices)
         {
             _context = context;
             _npcServices = npcServices;
+            _fileServices = fileServices;
         }
 
         [HttpGet]
@@ -27,7 +30,7 @@ namespace TechMeetsMagic.Controllers
         {
             var ResultingInvetory = _context.NPCs
                 .OrderByDescending(y => y.NpcType)
-                .Select(x => new NpcIndexViewModels
+                .Select(x => new NPCIndexViewModels
                 {
                     ID = x.ID,
                     NPCName = x.NPCName,
@@ -76,6 +79,7 @@ namespace TechMeetsMagic.Controllers
             }
             return RedirectToAction("Index", vm);
         }
+
         public async Task<IActionResult> Details(Guid id /*, Guid ref*/)
         {
             var npc = await _npcServices.DetailsAsync(id);
@@ -110,6 +114,7 @@ namespace TechMeetsMagic.Controllers
 
             return View(vm);            
         }
+
         [HttpGet]
         public async Task<IActionResult> Update(Guid id)
         {
@@ -141,11 +146,13 @@ namespace TechMeetsMagic.Controllers
             vm.Images.AddRange(images);
             return View("Update", vm);
         }
+
         [HttpPost]
         public async Task<IActionResult> Update(NpcCreateViewModels vm)
         {
             var dto = new NpcDto()
             {
+                ID = vm.ID,
                 NPCName = vm.NPCName,
                 NPCDescribtion = vm.NPCDescribtion,
                 NPCLevel = 0,
@@ -166,6 +173,57 @@ namespace TechMeetsMagic.Controllers
             var result = await _npcServices.Update(dto);
             if (result == null) { return RedirectToAction("Index"); }
             return RedirectToAction("Index", vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == null) { return NotFound(); }
+            var npc = await _npcServices.DetailsAsync(id);
+            if (npc == null) { return NotFound();};
+            var images = await _context.FilesToDatabase
+                .Where(x => x.ID == id)
+                .Select(y => new NpcImageViewModel
+                {
+                    NpcID = y.ID,
+                    ImageID = y.ID,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+            var vm = new NpcDeleteViewModel();
+            vm.ID = npc.ID;
+            vm.NPCName = npc.NPCName;
+            vm.NPCDescribtion = npc.NPCDescribtion;
+            vm.NPCLevel = npc.NPCLevel;
+            vm.NPCMaxHP = npc.NPCMaxHP;
+            vm.NPCCurrentHP = npc.NPCCurrentHP;
+            vm.NPCAttackDamage = npc.NPCAttackDamage;
+            vm.NPCStatus = (Models.NonPlayerCharacters.NPCStatus)npc.NPCStatus;
+            vm.NpcType = (NPCType)npc.NpcType;
+            vm.CreatedAt = npc.CreatedAt;
+            vm.UpdatedAt = DateTime.Now;
+            vm.Images.AddRange(images);
+            return View("Update", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            var NpcToDelete = await _npcServices.Delete(id);
+            if (NpcToDelete != null) { return RedirectToAction("Index"); }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(NpcImageViewModel vm)
+        {
+            var dto = new FileToDatabaseDto()
+            {
+                ID = vm.ImageID
+            };
+            var image = await _fileServices.RemoveImageFromDatabase(dto);
+            if (image == null) { return RedirectToAction("Index"); }
+            return RedirectToAction("Index");
         }
     }
 }

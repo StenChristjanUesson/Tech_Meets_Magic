@@ -1,16 +1,6 @@
-﻿using System.Net.NetworkInformation;
-
-namespace TechMeetsMagic.Models.NonPlayerCharacters
+﻿namespace TechMeetsMagic.Models.NonPlayerCharacters
 {
-    public enum NPCType
-    {
-        QuestGiver, Companion, Researcher, Hostile, Tutorial,
-    }
-    public enum NPCStatus
-    {
-        Dead, Paralized, InFear, KnockedOut, Sleeping
-    }
-    public class NPCIndexViewModels
+    public class NpcDeleteViewModel
     {
         public Guid ID { get; set; }
         public string? NPCName { get; set; }
@@ -22,7 +12,10 @@ namespace TechMeetsMagic.Models.NonPlayerCharacters
         public int NPCAttackDamage { get; set; }
         public NPCType NpcType { get; set; }
 
-        //db only
+        //public List<IFormFile> Files { get; set; }
+        public List<NpcImageViewModel> Images { get; set; } = new List<NpcImageViewModel>();
+
+        // Database Only
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
