@@ -50,7 +50,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             }
         }
         
-        public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabase dto)
+        public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
         {
             var imageID = await _context.FilesToDatabase
                 .FirstOrDefaultAsync(x => x.ID == dto.ID);
@@ -64,6 +64,11 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             await _context.SaveChangesAsync();
 
             return null;
+        }
+
+        void IFileServices.UploadFilesToDatabase(NpcDto dto, NPC domain)
+        {
+            throw new NotImplementedException();
         }
     }
 }

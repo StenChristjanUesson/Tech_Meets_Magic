@@ -68,9 +68,6 @@
                 <input asp-action="removeImage" asp-controller="NPCs" asp-route-id="@image.ImageID" type="submit" class="btn btn-danger" value="Delete Image" />
             }
         </div>
-        @{
-            var breakpoint = "";
-        }
         <input asp-action="Update" asp-controller="NPCs" type="submit" class="btn btn-primary" value="Change NPC"/>
         <a asp-action="index" class="btn btn-primary">Cancel</a>
 
