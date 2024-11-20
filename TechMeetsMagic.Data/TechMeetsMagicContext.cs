@@ -13,6 +13,7 @@ namespace TechMeetsMagic.Data
     {
         public TechMeetsMagicContext(DbContextOptions<TechMeetsMagicContext> options) : base(options) { }
         public DbSet<NPC> NPCs { get; set; }
+        //public DbSet<Avatar> Avatars { get; set; }
         public DbSet<FileToDatabase> FilesToDatabase { get; set; }
     }
 }
