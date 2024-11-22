@@ -47,9 +47,31 @@ namespace TechMeetsMagic.ApplicationsServices.Services
                         _context.FilesToDatabase.Add(files);
                     }
                 }
+            }S
+        }
+
+        public void UploadFilesToDatabase(AvatarDto dto, Avatar domain)
+        {
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                foreach (var image in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            ID = Guid.NewGuid(),
+                            ImageTitle = image.FileName,
+                            AvatarId = domain.ID,
+                        };
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+                        _context.FilesToDatabase.Add(files);
+                    }
+                }
             }
         }
-        
+
         public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
         {
             var imageID = await _context.FilesToDatabase

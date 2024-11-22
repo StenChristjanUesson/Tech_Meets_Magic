@@ -12,5 +12,7 @@ namespace TechMeetsMagic.Core.Domain
         public string ImageTitle { get; set; }
         public byte[] ImageData { get; set; }
         public Guid? NpcId { get; set; }
+        public Guid? AvatarId { get; set; }
+
     }
 }
