@@ -47,7 +47,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
                         _context.FilesToDatabase.Add(files);
                     }
                 }
-            }S
+            }
         }
 
         public void UploadFilesToDatabase(AvatarDto dto, Avatar domain)
