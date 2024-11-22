@@ -14,7 +14,7 @@ namespace TechMeetsMagic.Core.Domain
     {
         Dead, Paralized, Fear, KnockedOut, Sleeping
     }
-    internal class Avatar
+    public class Avatar
     {
         public Guid ID { get; set; }
         public string? AvatarDescribtion { get; set; }
