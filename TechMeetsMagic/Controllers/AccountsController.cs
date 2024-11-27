@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TechMeetsMagic.Core.Domain;
@@ -30,7 +31,7 @@ namespace TechMeetsMagic.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var userHasPassword = await _userManager.HasPasswordAsync(user);
-            if ( userHasPassword)
+            if (userHasPassword)
             {
                 RedirectToAction("ChangePassword");
             }
@@ -85,6 +86,33 @@ namespace TechMeetsMagic.Controllers
                 }
                 await _signInManager.RefreshSignInAsync(user);
                 return View("ChangePasswordConfirmation");
+            }
+            return View(model);
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public  async Task<IActionResult> Forgot(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user != null && await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    var passwordResetLink = Url.Action("ResetPassword", "Accounts", new {Email = model.Email, token = token}, Request.Scheme);
+                    //!!
+
+                    return View("ForgotPasswordConfirmation");
+                }
+                return View("ForgotPasswordConfirmation");
             }
             return View(model);
         }
