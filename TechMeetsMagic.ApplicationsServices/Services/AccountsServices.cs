@@ -56,7 +56,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
         {
             // !!extval
             var user = await _UserManager.FindByEmailAsync(dto.Email);
-            return user
+            return user;
         }
     }
 }
