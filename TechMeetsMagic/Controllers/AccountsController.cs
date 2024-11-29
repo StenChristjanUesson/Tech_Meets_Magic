@@ -16,7 +16,8 @@ namespace TechMeetsMagic.Controllers
         private readonly TechMeetsMagicContext _context;
 
         public AccountsController
-            (UserManager<ApplicationUser> userManager,
+            (
+            UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             TechMeetsMagicContext context
             )
@@ -165,6 +166,13 @@ namespace TechMeetsMagic.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Accounts");
             }
             return RedirectToAction("ResetPasswordConfirmation", "Accounts");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordConfirmation() 
+        {
+            return View(); 
         }
 
         // user register Methods
