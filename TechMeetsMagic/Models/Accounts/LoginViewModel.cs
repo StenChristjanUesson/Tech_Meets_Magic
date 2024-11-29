@@ -11,7 +11,7 @@ namespace TechMeetsMagic.Models.Accounts
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Display(Name = "Remeber this Account? ")]
-        public bool RemberMe { get; set; }
+        public bool RememberMe { get; set; }
         public string? ReturnURL { get; set; }
     }
 }
