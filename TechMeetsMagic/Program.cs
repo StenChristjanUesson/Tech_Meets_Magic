@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<INPCServices, NPCServices>();
 builder.Services.AddScoped<IFileServices, FileServices>();
+builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.AddScoped<IAccountServices, AccountsServices>();
 builder.Services.AddDbContext<TechMeetsMagicContext>(
     Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

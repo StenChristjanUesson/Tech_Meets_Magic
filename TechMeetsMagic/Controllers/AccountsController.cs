@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using TechMeetsMagic.ApplicationsServices.Services;
 using TechMeetsMagic.Core.Domain;
+using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.Dto.AccountsDtos;
+using TechMeetsMagic.Core.ServicesInterface;
 using TechMeetsMagic.Data;
 using TechMeetsMagic.Models.Accounts;
 
@@ -14,12 +17,14 @@ namespace TechMeetsMagic.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly TechMeetsMagicContext _context;
+        private readonly IEmailServices _emailServices;
 
         public AccountsController
             (
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            TechMeetsMagicContext context
+            TechMeetsMagicContext context,
+            IEmailServices emailServices
             )
         {
             _userManager = userManager;
@@ -199,12 +204,28 @@ namespace TechMeetsMagic.Controllers
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var confirmationLink = Url.Action("ConfirmEmail", "Accounts", new {userid = user.Id, token = token}, Request.Scheme);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
+
+                    EmailTokenDto newsignup = new();
+                    newsignup.token = token;
+                    newsignup.Body = $"Thanks for signing up, Click right over here (Chuckle Fuck): {confirmationLink}";
+                    newsignup.Subject = "TechMeetsMagic";
+                    newsignup.To = user.Email;
                     if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
                         return RedirectToAction("ListUsers", "Administrations");
                     }
 
+                    List<string> errordatas =
+                        [
+                        "Area", "Accounts",
+                        "Issue", "Success",
+                        "StatusMessage", "Registration Success",
+                        "Acted on",  $"{model.Email}",
+                        "CreatedAccountData", $"{model.Email}\n{model.City}\n[password hidden]\n[password hidden]",
+                    ];
+
+                    _emailServices.SendEmailToken(newsignup, token);
                     ViewBag.ErrorTitle = "You have successfully registered";
                     ViewBag.ErrorMessage = "Before you can log in, please confirm email from the link" +
                         "\nwe have sent a email to your email address.";

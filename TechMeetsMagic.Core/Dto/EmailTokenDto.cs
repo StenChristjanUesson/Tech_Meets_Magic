@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechMeetsMagic.Core.Domain;
 
-namespace TechMeetsMagic.Core.ServicesInterface
+namespace TechMeetsMagic.Core.Dto
 {
-    public class IEmailsServices
+    public class EmailTokenDto : EmailDto
     {
+        public string token { get; set; }
     }
 }

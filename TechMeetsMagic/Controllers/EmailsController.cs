@@ -7,8 +7,8 @@ namespace TechMeetsMagic.Controllers
 {
     public class EmailsController : Controller
     {
-        private readonly IEmailsServices _emailServices;
-        public EmailsController(IEmailsServices emailServices)
+        private readonly IEmailServices _emailServices;
+        public EmailsController(IEmailServices emailServices)
         {
             _emailServices = emailServices;
         }
@@ -19,15 +19,16 @@ namespace TechMeetsMagic.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendEmail(EmailViewModel viewModel)
+        public IActionResult SendEmail(EmailViewModel viewModel, string token)
         {
-            var dto = new EmailDto()
+            var dto = new EmailTokenDto()
             {
                 To = viewModel.To,
                 Subject = viewModel.Subject,
                 Body = viewModel.Body,
+                token = token
             };
-            _emailServices.SendEmail(dto);
+            _emailServices.SendEmailToken(dto, token);
             return RedirectToAction(nameof(Index));
         }
     }
