@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MailKit.Net.Smtp;
-using System.Text;
-using System.Threading.Tasks;
 using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.ServicesInterface;
 
@@ -20,9 +15,8 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             _configuration = configuration;
         }
 
-        public void SendEmailToken(EmailTokenDto dto, string token)
+        public void SendEmail(EmailDto dto)
         {
-            dto.token = token;
             var email = new MimeMessage();
 
             _configuration.GetSection("EmailUserName").Value = "StenUesson";
@@ -34,7 +28,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             email.Subject = dto.Subject;
             var builder = new BodyBuilder
             {
-                HtmlBody = dto.Body += dto.token,
+                HtmlBody = dto.Body,
             };
 
             email.Body = builder.ToMessageBody();
@@ -44,17 +38,33 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             smtp.Authenticate(_configuration.GetSection("EmailUserName").Value, _configuration.GetSection("EmailPassword").Value);
             smtp.Send(email);
             smtp.Disconnect(true);
-
         }
 
-        void IEmailServices.SendEmail(EmailDto dto)
+        public void SendEmailToken(EmailTokenDto dto, string token)
         {
-            throw new NotImplementedException();
-        }
+            dto.token = token;
+            var email = new MimeMessage();
 
-        string IEmailServices.SendEmailToken(EmailTokenDto dto, string token)
-        {
-            throw new NotImplementedException();
+            _configuration.GetSection("EmailUserName").Value = "StenUesson";
+            _configuration.GetSection("EmailHost").Value = "smtp.gmail.com";
+            _configuration.GetSection("EmailPassword").Value = "tvpv uopv ozrb ajut";
+
+
+            email.From.Add(MailboxAddress.Parse(_configuration.GetSection("EmailUserName").Value));
+            email.To.Add(MailboxAddress.Parse(dto.To));
+            email.Subject = dto.Subject;
+            var builder = new BodyBuilder
+            {
+                HtmlBody = dto.Body,
+            };
+
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            //google smtp app password = TechMeetsMagicSMTP tvpv uopv ozrb ajut
+            smtp.Connect(_configuration.GetSection("EmailHost").Value, 587, MailKit.Security.SecureSocketOptions.StartTls);
+            smtp.Authenticate(_configuration.GetSection("EmailUserName").Value, _configuration.GetSection("EmailPassword").Value);
+            smtp.Send(email);
+            smtp.Disconnect(true);
         }
     }
 }

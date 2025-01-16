@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 using TechMeetsMagic.ApplicationsServices.Services;
 using TechMeetsMagic.Core.Domain;
 using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.Dto.AccountsDtos;
 using TechMeetsMagic.Core.ServicesInterface;
 using TechMeetsMagic.Data;
+using TechMeetsMagic.Models;
 using TechMeetsMagic.Models.Accounts;
 
 namespace TechMeetsMagic.Controllers
@@ -200,6 +202,8 @@ namespace TechMeetsMagic.Controllers
                     City = model.City
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
+                TempData["NewUserID"] = user.Id;
                 if (result.Succeeded)
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -215,21 +219,24 @@ namespace TechMeetsMagic.Controllers
                     {
                         return RedirectToAction("ListUsers", "Administrations");
                     }
+                    return RedirectToAction("NewProfile", "PlayerProfiles");
 
-                    List<string> errordatas =
-                        [
-                        "Area", "Accounts",
-                        "Issue", "Success",
-                        "StatusMessage", "Registration Success",
-                        "Acted on",  $"{model.Email}",
-                        "CreatedAccountData", $"{model.Email}\n{model.City}\n[password hidden]\n[password hidden]",
-                    ];
 
-                    _emailServices.SendEmailToken(newsignup, token);
-                    ViewBag.ErrorTitle = "You have successfully registered";
-                    ViewBag.ErrorMessage = "Before you can log in, please confirm email from the link" +
-                        "\nwe have sent a email to your email address.";
-                    return View("Error");
+                    //    List<string> errordatas =
+                    //        [
+                    //        "Area", "Accounts",
+                    //        "Issue", "Success",
+                    //        "StatusMessage", "Registration Success",
+                    //        "Acted on",  $"{model.Email}",
+                    //        "CreatedAccountData", $"{model.Email}\n{model.City}\n[password hidden]\n[password hidden]",
+                    //    ];
+
+                    //    _emailServices.SendEmailToken(newsignup, token);
+                    //    ViewBag.ErrorTitle = "You have successfully registered";
+                    //    ViewBag.ErrorMessage = "Before you can log in, please confirm email from the link" +
+                    //        "\nwe have sent a email to your email address.";
+                    //    return View("Error");
+                    //}
                 }
                 foreach (var error in result.Errors)
                 {
@@ -241,6 +248,7 @@ namespace TechMeetsMagic.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if(userId == null || token == null) { return RedirectToAction("Index", "Home"); }
@@ -250,14 +258,32 @@ namespace TechMeetsMagic.Controllers
                 ViewBag.ErrorMessage = $"The User with id of {userId} is not valid";
                 return View("NotFound");
             }
+            List<string> errordatas =
+                        [
+                        "Area", "Accounts",
+                        "Issue", "Failure",
+                        "StatusMessage", "Confirmation Failure",
+                        "ActedOn", $"{user.Email}",
+                        "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]\n[password hidden]"
+                        ];
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
+                errordatas =
+                        [
+                        "Area", "Accounts",
+                        "Issue", "Success",
+                        "StatusMessage", "Confirmation Success",
+                        "ActedOn", $"{user.Email}",
+                        "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]\n[password hidden]"
+                        ];
+                ViewBag.ErrorDatas = errordatas;
                 return View();
             }
+            ViewBag.ErrorDatas = errordatas;
             ViewBag.ErrorTitle = "Email cannot be confirmed.";
             ViewBag.ErrorMessage = $"The users email, with userid of {userId}, cannot be confirmed.";
-            return View("Error");
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
         }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TechMeetsMagic.Core.Domain;
 using TechMeetsMagic.Core.Dto;
 using TechMeetsMagic.Core.Dto.AccountsDtos;
+using TechMeetsMagic.Core.ServiceInterface;
 using TechMeetsMagic.Core.ServicesInterface;
 namespace TechMeetsMagic.ApplicationsServices.Services
 
@@ -16,17 +17,22 @@ namespace TechMeetsMagic.ApplicationsServices.Services
         private readonly UserManager<ApplicationUser> _UserManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailServices _emailServices;
+        private readonly IPlayerProfilesServices _playerProfilesServices;
+
 
         public AccountsServices
             (
                 UserManager<ApplicationUser> userManager,
                 SignInManager<ApplicationUser> signInManager,
-                IEmailServices emailServices
+                IEmailServices emailServices,
+                IPlayerProfilesServices playerProfilesServices
+
             )
         {
             _UserManager = userManager;
             _signInManager = signInManager;
             _emailServices = emailServices;
+            _playerProfilesServices = playerProfilesServices;
         }
 
         public async Task<ApplicationUser> Register( ApplicationUserDto dto)
@@ -43,6 +49,7 @@ namespace TechMeetsMagic.ApplicationsServices.Services
                 var token = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
                 _emailServices.SendEmailToken(new EmailTokenDto(), token);
             }
+            await _playerProfilesServices.Create((string)user.Id);
             return user;
         }
 

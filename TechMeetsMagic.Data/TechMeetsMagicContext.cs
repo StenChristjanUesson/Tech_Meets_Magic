@@ -18,5 +18,7 @@ namespace TechMeetsMagic.Data
         //public DbSet<Avatar> Avatars { get; set; }
         public DbSet<FileToDatabase> FilesToDatabase { get; set; }
         public DbSet<IdentityRole> identityRoles { get; set; }
+        public DbSet<PlayerProfile> PlayerProfiles { get; set; }
+
     }
 }

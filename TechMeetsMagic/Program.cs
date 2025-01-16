@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using TechMeetsMagic.ApplicationServices.Services;
 using TechMeetsMagic.ApplicationsServices.Services;
 using TechMeetsMagic.Core.Domain;
+using TechMeetsMagic.Core.ServiceInterface;
 using TechMeetsMagic.Core.ServicesInterface;
 using TechMeetsMagic.Data;
 using TechMeetsMagic.Security;
@@ -16,6 +18,7 @@ builder.Services.AddScoped<INPCServices, NPCServices>();
 builder.Services.AddScoped<IFileServices, FileServices>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.AddScoped<IAccountServices, AccountsServices>();
+builder.Services.AddScoped<IPlayerProfilesServices, PlayerProfilesServices>();
 builder.Services.AddDbContext<TechMeetsMagicContext>(
     Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

@@ -10,6 +10,6 @@ namespace TechMeetsMagic.Core.ServicesInterface
     public interface IEmailServices
     { 
         void SendEmail(EmailDto dto);
-        string SendEmailToken(EmailTokenDto dto, string token);
+        void SendEmailToken(EmailTokenDto dto, string token);
     }
 }
