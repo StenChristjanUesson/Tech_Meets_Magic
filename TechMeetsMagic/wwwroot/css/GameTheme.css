@@ -3,40 +3,22 @@
 /*tekstifondid*/
 @font-face {
     font-family: Enchanted-landRG;
-    src: url('../lib/gameasset/font/Enchanted-land rg.otf')
+    src: url('../lib/gameasset/font/enchanted-land.regular.otf')
 }
 
 @font-face {
     font-family: WizztaFontRG;
-    src: url('../lib/gameasset/font/wizzta-font rg.otf')
+    src: url('../lib/gameasset/font/wizzta.regular.ttf')
 }
 
 @font-face {
-    font-family: forgottenFuturistBD;
-    src: url('../lib/gameasset/font/wizzta-font bd.otf')
+    font-family: ThornValleyRG;
+    src: url('../lib/gameasset/font/thorn-valley.regular.ttf')
 }
 
-@font-face {
-    font-family: forgottenFuturistRGIT;
-    src: url('../lib/gameasset/font/wizzta-font rg it.otf')
-}
-
-@font-face {
-    font-family: forgottenFuturistBDIT;
-    src: url('../lib/gameasset/font/wizzta-font bd it.otf')
-}
-/*title-fondid*/
-@font-face {
-    font-family: ethnoCentricRG;
-    src: url('../lib/gameasset/font/ethnocentric rg.otf')
-}
-
-@font-face {
-    font-family: ethnoCentricRGIT;
-    src: url('../lib/gameasset/font/ethnocentric rg it.otf')
-}
 
 /* Kujundid */
+
 .TLtriangle {
     width: 0;
     height: 0;
@@ -56,20 +38,21 @@
 
 /*klassid*/
 
-/*title-klassid*/
+}/*xmp-klassid*/
 .TechMeetsMagicTitleFontOnly {
-    font-family: ethnoCentricRG;
+    font-family: Enchanted-landRG;
+    font-weight: bold;
 }
 
 .TechMeetsMagicTitleFontIsGradient {
-    font-family: ethnoCentricRG;
+    font-family: Enchanted-landRG;
     background: -webkit-linear-gradient(rgb(252, 255, 77), rgb(77, 237, 255));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .TechMeetsMagicTitleFontIsGradient72px {
-    font-family: ethnoCentricRG;
+    font-family: Enchanted-landRG;
     background: -webkit-linear-gradient(rgb(252, 255, 77), rgb(77, 237, 255));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -150,19 +133,7 @@
 }
 
 .TechMeetsMagicTextForgottenFuturistRGFontOnly {
-    font-family: forgottenFuturistRG
-}
-
-.TechMeetsMagicTextForgottenFuturistRGITFontOnly {
-    font-family: forgottenFuturistRGIT
-}
-
-.TechMeetsMagicTextForgottenFuturistBDFontOnly {
-    font-family: forgottenFuturistBD
-}
-
-.TechMeetsMagicTextForgottenFuturistBDITFontOnly {
-    font-family: forgottenFuturistBDIT
+    font-family: WizztaFontRG
 }
 
 .TAMNavLink {
