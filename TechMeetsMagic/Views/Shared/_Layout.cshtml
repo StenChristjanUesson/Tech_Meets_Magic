@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<TechMeetsMagic.Core.Domain.ApplicationUser> signInManager;
+@inject TechMeetsMagic.Core.Domain.PlayerProfile playerProfile;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,9 +26,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="NPCs" asp-action="Index">Make NPC</a>
-                        </li>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            if(playerProfile.ProfileType == true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="AdminAreas" asp-action="Index">Admin Panel</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Emails" asp-action="Index">Test Email Sending</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="NPCs" asp-action="Index">Make NPC</a>
+                            </li>
+                        }           
                     </ul>
                     @* User login section on the navbar *@
                     <ul class="navbar-nav ml-auto">

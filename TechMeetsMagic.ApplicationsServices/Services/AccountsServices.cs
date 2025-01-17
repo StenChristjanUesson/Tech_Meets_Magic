@@ -41,7 +41,8 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             {
                 UserName = dto.UserName,
                 Email = dto.Email,
-                City = dto.City
+                City = dto.City,
+                ProfileType = false
             };
             var result = await _UserManager.CreateAsync(user, dto.Password);
             if (result.Succeeded)

@@ -15,5 +15,6 @@ namespace TechMeetsMagic.Models.Accounts
         [Compare("Password", ErrorMessage = "The new password and its confirmation do not match. Please retry.")]
         public string ConfirmPassword { get; set; }
         public string City { get; set; }
+        public bool ProfileType { get; set; } //true, admin, false, player
     }
 }

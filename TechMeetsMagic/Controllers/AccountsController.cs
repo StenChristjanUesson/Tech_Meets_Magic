@@ -199,7 +199,8 @@ namespace TechMeetsMagic.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    City = model.City
+                    City = model.City,
+                    ProfileType = model.ProfileType
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 

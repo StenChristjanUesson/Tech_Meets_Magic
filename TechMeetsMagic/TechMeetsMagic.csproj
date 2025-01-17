@@ -22,4 +22,9 @@
     <ProjectReference Include="..\TechMeetsMagic.Data\TechMeetsMagic.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\Gameasset\font\" />
+    <Folder Include="wwwroot\lib\Gameasset\image\" />
+  </ItemGroup>
+
 </Project>
