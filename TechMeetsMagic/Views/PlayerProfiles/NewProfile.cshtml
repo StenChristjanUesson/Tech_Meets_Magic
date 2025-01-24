@@ -1,7 +1,9 @@
 ﻿@model TechMeetsMagic.Models.Profiles.ProfileRegisterViewModel
+
 <div class="text-danger">
     <h1> Customize your profile: </h1>
 </div>
+
 <div class="row">
     <div class="col-md-12 text-danger">
         <form method="post">
@@ -12,18 +14,18 @@
                 <div class="form-group">
                     <label asp-for="ScreenName"></label>
                     <input asp-for="ScreenName" class="form-control" />
-                    <span asp-validation-for="ScreenName" class="galacticErrorMessageColor"></span>
+                    <span asp-validation-for="ScreenName"></span>
                 </div>
                 <button type="submit">
-                    <a id="gCbuttonText" viewBox="0 0 200 50"                       
-                        @* asp-controller="PlayerProfiles" asp-action="NewProfile" *@ >
-                       asp-controller="PlayerProfiles" asp-action="NewProfile">
-                        <svg id="indexButton" class="text-danger">
-                            <rect class="text-danger"></rect>
-                            <text x="10" y="21" class="text-danger">This is me</text>
-                            <polygon class="text-danger" points='0,0 0,13 13,0'></polygon>
-                            <polygon class="text-danger" points='130,30 130,17 117,30'></polygon>
-                        </svg>
+                    <a id="gCbuttonText" viewBox="0 0 200 50">
+                        <asp-controller ="PlayerProfiles" asp-action="NewProfile">
+                            <svg id="indexButton" class="text-danger">
+                                <rect class="text-danger"></rect>
+                                <text x="10" y="21" class="text-danger">This is me</text>
+                                <polygon class="text-danger" points='0,0 0,13 13,0'></polygon>
+                                <polygon class="text-danger" points='130,30 130,17 117,30'></polygon>
+                            </svg>
+                        </asp-controller>
                     </a>
                 </button>
             </div>

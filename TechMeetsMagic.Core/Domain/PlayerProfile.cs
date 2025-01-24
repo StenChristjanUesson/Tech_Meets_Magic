@@ -16,9 +16,7 @@ namespace TechMeetsMagic.Core.Domain
         public string ApplicationUserID { get; set; } // 1-1
         public string ScreenName { get; set; }
         public ProfileStatus CurrentStatus { get; set; }
-
         public bool ProfileType { get; set; } //true, admin, false, player
-
         //dbonly
         public DateTime ProfileCreatedAt { get; set; }
         public DateTime ProfileModifiedAt { get; set; }
