@@ -1,5 +1,5 @@
 ﻿using TechMeetsMagic.Core.Domain;
-namespace GalacticTitans.Models.Profiles
+namespace TechMeetsMagic.Models.Profiles
 {
     public class ProfileRegisterViewModel
     {
