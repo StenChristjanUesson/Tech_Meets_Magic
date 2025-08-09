@@ -12,5 +12,9 @@ namespace TechMeetsMagic.Core.Dto
         public string ImageTitle { get; set; }
         public byte[] ImageData { get; set; }
         public Guid? NpcID { get; set; }
+        public Guid? AvatarID { get; set; }
+        public Guid? SkillID { get; set; }
+        public Guid? BlueprintID { get; set; }
+        public Guid? TheUserMadeOpenWorldID { get; set; }
     }
 }

@@ -1,0 +1,48 @@
+﻿@model TechMeetsMagic.Models.AvatarAppearence.AvatarDeleteViewModel
+
+<h1> @Html.DisplayFor(model => model.AvatarGender) </h1>
+
+<div>
+    <h4>Hello there, come and look at yourself: </h4>
+    <hr />
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="ID" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.ID)
+        </div>
+        <div id="imagediv">
+            @foreach (var image in Model.Images)
+            {
+                <partial name="_Images" model="image"></partial>
+            }
+        </div>
+        <div class="form-group row">
+            <label asp-for="AvatarGender" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.AvatarGender)
+        </div>
+        <div class="form-group row">
+            <label asp-for="AvatarSkinColor" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.AvatarSkinColor)
+        </div>
+        <div class="form-group row">
+            <label asp-for="AvatarHairColor" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.AvatarHairColor)
+        </div>
+        <div class="form-group row">
+            <label asp-for="AvatarHairLenght" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.AvatarHairLenght)
+        </div>
+        <div class="form-group row">
+            <label asp-for="AvatarEyeColor" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.AvatarEyeColor)
+        </div>
+
+    </dl>
+    <form asp-action="DeleteConfirmation">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit"value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" asp-controller="NPCs" class="btn btn-secondary">Index</a>
+    </form>
+
+    
+</div>

@@ -1,0 +1,63 @@
+﻿@model TechMeetsMagic.Models.ItemBlueprints.BlueprintCreateViewModels
+
+<div>
+    <form method="post" asp-action="Create" enctype="multipart/form-data">
+        <input asp-for="CreatedAt" type="hidden"/>
+        <input asp-for="UpdatedAt" type="hidden"/>
+        
+        <div class="form-group-row">
+            <label asp-for="BlueprintName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="BlueprintName" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group-row">
+            <label asp-for="Resources_Needed" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Resources_Needed" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group-row">
+            <label asp-for="BlueprintItemType" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="BlueprintItemType" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group-row">
+            <label asp-for="Files" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-5">
+                <div class="custom-file">
+                    <input class="form-control custom-file-input"
+                    asp-for="Files"
+                    multiple type="file"
+                    />
+                    <label class="custom-file-label">Choose Images from device</label>
+                </div>
+            </div>
+        </div>
+        
+        <input asp-action="Create" asp-controller="ItemBlueprints" type="submit" class="btn btn-primary" value="Make Blueprint"></input>
+        <a asp-action="index" class="btn btn-primary">Cancel</a>
+
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileLabel = $(this).next('.custom-file-input');
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    files.html(files.length + ' files selected');
+                }
+                else if (files.length == 1) {
+                    files.html(files[0].name);
+                }
+            });
+        });
+    </script>
+}

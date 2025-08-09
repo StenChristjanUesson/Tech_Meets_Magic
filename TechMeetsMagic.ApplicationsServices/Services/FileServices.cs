@@ -28,11 +28,11 @@ namespace TechMeetsMagic.ApplicationsServices.Services
             _context = context;
         }
 
-        public void UploadFilesToDatabase(NpcDto dto, NPC domain)
+        public void UploadFilesToDatabase(NpcDto npcdto, NPC npcdomain, AvatarDto avatardto, Avatar avatardomain, BlueprintDto blueprintdto, Blueprint blueprintdomain, SkillDto skilldto, Skill skilldomain, TheUserMadeOpenWorldDto theusermadeopenworld_dto, TheUserMadeOpenWorld theusermadeopenworld_domain)
         {
-            if ( dto.Files != null && dto.Files.Count > 0) 
+            if (npcdto.Files != null && npcdto.Files.Count > 0)
             {
-                foreach ( var image in dto.Files)
+                foreach (var image in npcdto.Files)
                 {
                     using (var target = new MemoryStream())
                     {
@@ -40,16 +40,92 @@ namespace TechMeetsMagic.ApplicationsServices.Services
                         {
                             ID = Guid.NewGuid(),
                             ImageTitle = image.FileName,
-                            NpcId = domain.ID,
+                            NpcId = npcdomain.ID,
                         };
-                        image.CopyTo( target );
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+                        _context.FilesToDatabase.Add(files);
+                    }
+                }
+            }
+
+            if (avatardto.Files != null && avatardto.Files.Count > 0)
+            {
+                foreach (var image in avatardto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            ID = Guid.NewGuid(),
+                            ImageTitle = image.FileName,
+                            NpcId = avatardomain.ID,
+                        };
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+                        _context.FilesToDatabase.Add(files);
+                    }
+                }
+            }
+
+            if (blueprintdto.Files != null && blueprintdto.Files.Count > 0)
+            {
+                foreach (var image in blueprintdto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            ID = Guid.NewGuid(),
+                            ImageTitle = image.FileName,
+                            NpcId = blueprintdomain.ID,
+                        };
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+                        _context.FilesToDatabase.Add(files);
+                    }
+                }
+            }
+
+            if (skilldto.Files != null && skilldto.Files.Count > 0)
+            {
+                foreach (var image in skilldto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            ID = Guid.NewGuid(),
+                            ImageTitle = image.FileName,
+                            NpcId = skilldomain.ID,
+                        };
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+                        _context.FilesToDatabase.Add(files);
+                    }
+                }
+            }
+
+            if (theusermadeopenworld_dto.Files != null && theusermadeopenworld_dto.Files.Count > 0)
+            {
+                foreach (var image in theusermadeopenworld_dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            ID = Guid.NewGuid(),
+                            ImageTitle = image.FileName,
+                            NpcId = theusermadeopenworld_domain.ID,
+                        };
+                        image.CopyTo(target);
                         files.ImageData = target.ToArray();
                         _context.FilesToDatabase.Add(files);
                     }
                 }
             }
         }
-        
+
         public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
         {
             var imageID = await _context.FilesToDatabase

@@ -48,7 +48,7 @@
                             Guid userid = Guid.Parse(empty);
                             var user = await userManager.FindByIdAsync(userid.ToString());
                             userprofile = await PlayerProfilesServices.DetailsAsync(userid);
-                            if(playerProfile.ProfileType == true)
+                            if (playerProfile.ProfileType == true)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="AdminAreas" asp-action="Index">Admin Panel</a>
@@ -60,8 +60,16 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="NPCs" asp-action="Index">Make NPC</a>
                             </li>
-                        }           
-                    </ul>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ItemBlueprint" asp-action="Index">Make Blueprint</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TheCoolPlayerPowers" asp-action="Index">Make Temporary Player Skill</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TheGeneratedWorlds" asp-action="Index">Make Your world</a>
+                                }
+                        </ul>
                     @* User login section on the navbar *@
                     <ul class="navbar-nav ml-auto">
                         @if (signInManager.IsSignedIn(User))

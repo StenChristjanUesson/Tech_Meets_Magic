@@ -1,0 +1,44 @@
+﻿@model TechMeetsMagic.Models.TheGeneratedUserMadeOpenWorld.TheUserMadeOpenWorldDeleteViewModel
+
+<h1> @Html.DisplayFor(model => model.WorldName) </h1>
+
+<div>
+    <h4>Hello there, How would you like your world: </h4>
+    <hr />
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="ID" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.ID)
+        </div>
+        <div id="imagediv">
+            @foreach (var image in Model.Images)
+            {
+                <partial name="_Images" model="image"></partial>
+            }
+        </div>
+        <div class="form-group row">
+            <label asp-for="WorldName" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.WorldName)
+        </div>
+        <div class="form-group row">
+            <label asp-for="WorldDescription" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.WorldDescription)
+        </div>
+        <div class="form-group row">
+            <label asp-for="WorldImageUrl" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.WorldImageUrl)
+        </div>
+        <div class="form-group row">
+            <label asp-for="WorldMapUrl" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.WorldMapUrl)
+        </div>
+
+    </dl>
+    <form asp-action="DeleteConfirmation">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit"value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" asp-controller="TheGeneratedWorlds" class="btn btn-secondary">Index</a>
+    </form>
+
+    
+</div>
